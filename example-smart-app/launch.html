@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
@@ -12,8 +13,13 @@
     <script src='./lib/js/fhir-client-v0.1.12.js'></script>
     <script>
       FHIR.oauth2.authorize({
+
+        // The client_id that you should have obtained after registering a client at the EHR.
         'client_id': '9fb4c319-fe1b-4518-af96-0a082fad96e5', //Your app client ID
-        'scope':  'launch user/*.* openid profile' //'patient/*.read launch'
+
+        'scope':  'launch user/*.* openid profile', //'patient/*.read launch'
+
+        redirectUri: "index.html"
       });
     </script>
     <div class="spinner">

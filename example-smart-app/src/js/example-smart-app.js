@@ -23,26 +23,26 @@
            }
          });
 
-        // Previous UW values for lymph
-        //var obv = smart.patient.api.fetchAll({
-        //  type: 'Observation',
-        //  query: {
-        //    code: {
-        //      $or: ['http://loinc.org|26478-8', 'http://loinc.org|2345-7']
-        //    }
-        //  }
-        //});
+        var immunizations = smart.patient.api.fetchAll({
+          type: 'Immunization',
+          query: {
+            code: {
+              $or: ['urn:oid:1.2.36.1.2001.1005.17|FLUVAX']
+            }
+          }
+        });
 
         console.log('patient:');
         console.log(patient)
 
-        $.when(pt, obv).fail(onError);
+        $.when(pt, obv,immunizations).fail(onError);
 
-        $.when(pt, obv).done(function(patient, obv) {
-          var byCodes = smart.byCodes(obv, 'code');
+        $.when(pt, obv,immunizations).done(function(patient, obv, immunizations) {
+          var byCodes = smart.byCodes(obv, immunizations, 'code');
           console.log("byCodes:");
           console.log(byCodes('8480-6'));
           console.log(byCodes('8462-4'));
+          console.log(byCodes('FLUVAX'));
 
           var gender = patient.gender;
 
@@ -57,18 +57,40 @@
           // Observations
           // lymph = byCodes('26478-8');
           // Cerner SoF Tutorial Observations
-           var height = byCodes('8302-2');
-           var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
-           var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
-           var hdl = byCodes('2085-9');
-           var ldl = byCodes('2089-1');
+          var height = byCodes('8302-2');
+          var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
+          var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
+          var hdl = byCodes('2085-9');
+          var ldl = byCodes('2089-1');
+          
+          // Immunizations
+          var vcode = byCodes('FLUVAX');
+          var vcodesystem = 'urn:oid:1.2.36.1.2001.1005.17';
+          var vname = 'FLUVAX (Influenza)';
+          var status = 'completed';
 
+          if (typeof vcode != 'undefined')  {
+            p.vcode = vcode;
+          }
+
+          if (typeof vcodesystem != 'undefined')  {
+            p.vcodesystem = vcodesystem;
+          }
+
+          if (typeof vname != 'undefined')  {
+            p.vname = vname;
+          }
+
+          if (typeof status != 'undefined')  {
+            p.status = status;
+          }
 
           var p = defaultPatient();
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
+        
 
           // Observations
           //p.lymph = getQuantityValueAndUnit(lymph[0]);
@@ -87,6 +109,9 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
+
+          p.height = getQuantityValueAndUnit(height[0]);
+
           console.log('p:');
           console.log(p);
           ret.resolve(p);
@@ -115,6 +140,13 @@
       diastolicbp: {value: ''},
       ldl: {value: ''},
       hdl: {value: ''},
+
+      // Immunizations
+      vcode: {value: ''},
+      vcodesystem: {value: ''},
+      vname: {value: ''},
+      status: {value: ''},
+
     };
   }
 
@@ -164,6 +196,12 @@
     $('#diastolicbp').html(p.diastolicbp);
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
+
+
+    $('#vcode').html(p.vcode);
+    $('#vcodesystem').html(p.vcodesystem);
+    $('#vname').html(p.vname);
+    $('#status').html(p.status);
   };
 
 })(window);

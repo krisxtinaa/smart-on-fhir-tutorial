@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>Kristina-SMART-App-2022</title>
 
-    <!-- <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'> -->
-    <style>
-      #patient, #meds, #immunizations {
-          font-family: Monaco, monospace;
-          white-space: pre;
-          font-size: 13px;
-          height: 30vh;
-          overflow: scroll;
-          border: 1px solid #CCC;
-      }
-    </style>
+    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
   </head>
   <body>
     <div id='errors'>
@@ -29,16 +18,8 @@
     <div id='holder' >
       <h2>Example-SMART-App</h2>
 
-      <h4>Current Patient</h4>
-      <div id="patient">Loading...</div>
-      <br/>
-      <h4>Medications</h4>
-      <div id="meds">Loading...</div>
-      <br/>
-      <h4>Immunizations</h4>
-      <div id="immunizations">Loading...</div>
-
-      <!-- <h2>Patient Resource</h2>
+      <!-- PATIENT RESOURCE -->
+      <h2>Patient Resource</h2>
       <table>
         <tr>
           <th>First Name:</th>
@@ -57,8 +38,14 @@
           <td id='birthdate'></td>
         </tr>
       </table>
+
+      <!-- OBSERVATION RESOURCE -->
       <h2>Observation Resource</h2>
       <table>
+        <!-- <tr>
+          <th>Lymph:</th>
+          <td id='lymph'></td>
+        </tr> -->
         <tr>
           <th>Height:</th>
           <td id='height'></td>
@@ -81,7 +68,28 @@
           <td id='hdl'></td>
         </tr>
       </table>
-    </div> -->
+
+      <!-- IMMUNIZATION RESOURCE -->
+      <h2>Immunization Resource</h2>
+      <table>
+        <tr>
+          <th>Vaccine Code:</th>
+          <td id='vcode'></td>
+        </tr>
+        <tr>
+          <th>Vaccine Code System:</th>
+          <td id='vcodesystem'></td>
+        </tr>
+        <tr>
+          <th>Vaccine Name:</th>
+          <td id='vname'></td>
+        </tr>
+        <tr>
+          <th>Status:</th>
+          <td id='status'></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
@@ -104,74 +112,5 @@
         }
       );
     </script>
-
-  <script type="text/javascript">
-    FHIR.oauth2.ready().then(function(client) {
-      
-      // Render the current patient (or any error)
-      client.patient.read().then(
-          function(pt) {
-              document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
-          },
-          function(error) {
-              document.getElementById("patient").innerText = error.stack;
-          }
-      );
-      
-      // Get MedicationRequests for the selected patient
-      client.request("/MedicationRequest?patient=" + client.patient.id, {
-          resolveReferences: [ "medicationReference" ],
-          graph: true
-      })
-      
-      // Reject if no MedicationRequests are found
-      .then(function(data) {
-          if (!data.entry || !data.entry.length) {
-              throw new Error("No medications found for the selected patient");
-          }
-          return data.entry;
-      })
-      
-
-      // Render the current patient's medications (or any error)
-      .then(
-          function(meds) {
-              document.getElementById("meds").innerText = JSON.stringify(meds, null, 4);
-          },
-          function(error) {
-              document.getElementById("meds").innerText = error.stack;
-          }
-      );
-
-      // Get ImmunizationRequest for the selected patient
-          client.request("/Immunization?patient=" + client.patient.id, {
-          resolveReferences: [ "immunizationReference" ],
-          graph: true
-      })
-      
-      // Reject if no ImmunizationRequest are found
-      .then(function(data) {
-          if (!data.entry || !data.entry.length) {
-              throw new Error("No immunizations found for the selected patient");
-          }
-          return data.entry;
-      })
-      
-
-      // Render the current patient's immunizations (or any error)
-      .then(
-          function(meds) {
-              document.getElementById("immunizations").innerText = JSON.stringify(meds, null, 4);
-          },
-          function(error) {
-              document.getElementById("immunizations").innerText = error.stack;
-          }
-      );
-
-  }).catch(console.error);
-  </script>
-
-
-
   </body>
 </html>

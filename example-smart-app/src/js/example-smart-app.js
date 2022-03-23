@@ -12,16 +12,16 @@
         var patient = smart.patient;
         var pt = patient.read();
 
-        var obv = smart.patient.api.fetchAll({
-          type: 'Observation',
-          query: {
-            code: {
-              $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
-                    'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
-                    'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
-            }
-          }
-        });
+         var obv = smart.patient.api.fetchAll({
+           type: 'Observation',
+           query: {
+             code: {
+               $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                     'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+                     'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+             }
+           }
+         });
 
         var immunizations = smart.patient.api.fetchAll({
           type: 'Immunization',
@@ -64,18 +64,25 @@
           var ldl = byCodes('2089-1');
           
           // Immunizations
-          var code = byCodes('FLUVAX');
-          var system = 'urn:oid:1.2.36.1.2001.1005.17';
-          var text = 'FLUVAX (Influenza)';
+          var vcode = byCodes('FLUVAX');
+          var vcodesystem = 'urn:oid:1.2.36.1.2001.1005.17';
+          var vname = 'FLUVAX (Influenza)';
           var status = 'completed';
 
-
-          if (typeof code != 'undefined')  {
-            p.code = code;
+          if (typeof vcode != 'undefined')  {
+            p.vcode = vcode;
           }
-          
-          if (typeof patient.text[0] !== 'undefined') {
-            text = patient.text[0].text;
+
+          if (typeof vcodesystem != 'undefined')  {
+            p.vcodesystem = vcodesystem;
+          }
+
+          if (typeof vname != 'undefined')  {
+            p.vname = vname;
+          }
+
+          if (typeof status != 'undefined')  {
+            p.status = status;
           }
 
           var p = defaultPatient();
@@ -83,9 +90,11 @@
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
+        
 
           // Observations
           //p.lymph = getQuantityValueAndUnit(lymph[0]);
+
 
           // Cerner SoF Tutorial Observations
           p.height = getQuantityValueAndUnit(height[0]);
@@ -133,9 +142,9 @@
       hdl: {value: ''},
 
       // Immunizations
-      code: {value: ''},
-      system: {value: ''},
-      text: {value: ''},
+      vcode: {value: ''},
+      vcodesystem: {value: ''},
+      vname: {value: ''},
       status: {value: ''},
 
     };
@@ -189,9 +198,9 @@
     $('#hdl').html(p.hdl);
 
 
-    $('#code').html(p.code);
-    $('#system').html(p.system);
-    $('#text').html(p.text);
+    $('#vcode').html(p.vcode);
+    $('#vcodesystem').html(p.vcodesystem);
+    $('#vname').html(p.vname);
     $('#status').html(p.status);
   };
 

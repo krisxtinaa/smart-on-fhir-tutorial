@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <title>Example-SMART-App</title>
-  </head>
-  <body>
+<html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
+      <title>Kristina's FHIR App</title>
+    </head>
+    <body>
+        <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+        <script>
+            FHIR.oauth2.authorize({
 
-    <!-- FHIR Client JS Library -->
-    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
-    <script>
-      FHIR.oauth2.authorize({
+              // The client_id that you should have obtained after registering a client at
+              // the EHR.
+              clientId: "9fb4c319-fe1b-4518-af96-0a082fad96e5",
 
-        // The client_id that you should have obtained after registering a client at the EHR.
-        'client_id': '9fb4c319-fe1b-4518-af96-0a082fad96e5', //Your app client ID
+              // The scopes that you request from the EHR. In this case we want to:
+              // launch            - Get the launch context
+              // openid & fhirUser - Get the current user
+              // patient/*.read    - Read patient data
+              scope: "launch user/*.* openid profile",
 
-        'scope':  'launch user/*.* openid profile', //'patient/*.read launch'
-
-        redirectUri: "index.html"
-      });
-    </script>
-    <div class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
-    </div>
-  </body>
+              // Typically, if your redirectUri points to the root of the current directory
+              // (where the launchUri is), you can omit this option because the default value is
+              // ".". However, some servers do not support directory indexes so "." and "./"
+              // will not automatically map to the "index.html" file in that directory.
+              redirectUri: "index.html"
+            });
+        </script>
+    </body>
 </html>

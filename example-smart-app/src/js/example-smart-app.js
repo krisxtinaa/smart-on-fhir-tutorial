@@ -47,7 +47,7 @@
           }
 
           // Observations
-          bmi = byCodes('39156-5');
+          var bmi = byCodes('39156-5');
 
           // Cerner SoF Tutorial Observations
            var height = byCodes('8302-2');

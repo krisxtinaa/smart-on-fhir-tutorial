@@ -18,20 +18,11 @@
              code: {
                $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
                      'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
-                     'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+                     'http://loinc.org|2089-1', 'http://loinc.org|55284-4',
+                     'http://loinc.org|39156-5']
              }
            }
          });
-
-        // Previous UW values for lymph
-        //var obv = smart.patient.api.fetchAll({
-        //  type: 'Observation',
-        //  query: {
-        //    code: {
-        //      $or: ['http://loinc.org|26478-8', 'http://loinc.org|2345-7']
-        //    }
-        //  }
-        //});
 
         console.log('patient:');
         console.log(patient)
@@ -43,6 +34,7 @@
           console.log("byCodes:");
           console.log(byCodes('8480-6'));
           console.log(byCodes('8462-4'));
+          console.log(byCodes('39156-5'));
 
           var gender = patient.gender;
 
@@ -55,7 +47,8 @@
           }
 
           // Observations
-          // lymph = byCodes('26478-8');
+          bmi = byCodes('39156-5');
+
           // Cerner SoF Tutorial Observations
            var height = byCodes('8302-2');
            var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
@@ -71,7 +64,7 @@
           p.lname = lname;
 
           // Observations
-          //p.lymph = getQuantityValueAndUnit(lymph[0]);
+          p.bmi = getQuantityValueAndUnit(bmi[0]);
 
 
           // Cerner SoF Tutorial Observations
@@ -107,7 +100,8 @@
       lname: {value: ''},
       gender: {value: ''},
       birthdate: {value: ''},
-      // lymph: {value: ''}
+      
+      bmi: {value: ''},
 
       // Cerner SoF Tutorial Observations
       height: {value: ''},
@@ -155,7 +149,8 @@
     $('#lname').html(p.lname);
     $('#gender').html(p.gender);
     $('#birthdate').html(p.birthdate);
-    //$('#lymph').html(p.lymph);
+   
+    $('#bmi').html(p.bmi);
     
     // Cerner SoF Tutorial Observations
 

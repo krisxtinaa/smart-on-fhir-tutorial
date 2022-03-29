@@ -119,11 +119,14 @@
           p.encounterLocation = encounterLocations[0];
 
           // Immunizations
-          p.immuDosage=Immunizations[0].doseQuantity.value + Immunizations[0].doseQuantity.unit; 
-          p.immuLocation =Immunizations[0].location.display;
-          p.immuManufacturer=Immunizations[0].manufacturer.display;
-          p.immuPerformer= Immunizations[0].performer.display;
-          p.immuSite=Immunizations[0].site.text; 
+          p.immuName=Immunizations[0].vaccineCode.coding.display;
+          p.immuCode=Immunizations[0].vaccineCode.coding.code;
+          p.immuDosage=Immunizations[0].doseQuantity.value; 
+
+          //p.immuLocation =Immunizations[0].location.display;
+          //p.immuManufacturer=Immunizations[0].manufacturer.display;
+          //p.immuPerformer= Immunizations[0].performer.display;
+          //p.immuSite=Immunizations[0].site.text; 
 
           // Check
           console.log('p:');
@@ -158,11 +161,14 @@
       patientAddr: {value: ''},
       encounterReasons:{value: ''},
       encounterLocation:{value: ''},
+
+      immuName :{value: ''},
+      immuCode :{value: ''},
       immuDosage :{value: ''},
-      immuLocation :{value: ''},
-      immuManufacturer :{value: ''},
-      immuPerformer :{value: ''},
-      immuSite :{value: ''},
+      //immuLocation :{value: ''},
+      //immuManufacturer :{value: ''},
+      //immuPerformer :{value: ''},
+      //immuSite :{value: ''},
     };
   }
 
@@ -216,11 +222,15 @@
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
     $('#encounterLocation').html(p.encounterLocation);
+
+    $('#iName').html(p.immuName);
+    $('#iCode').html(p.immuCode);
     $('#iQuantity').html(p.immuDosage);
-    $('#iLocation').html(p.immuLocation);
-    $('#iManufacturer').html(p.immuManufacturer);
-    $('#iPerformer').html(p.immuPerformer);
-    $('#iSite').html(p.immuSite);
+
+    //$('#iLocation').html(p.immuLocation);
+    //$('#iManufacturer').html(p.immuManufacturer);
+    //$('#iPerformer').html(p.immuPerformer);
+    //$('#iSite').html(p.immuSite);
   };
 
 })(window);

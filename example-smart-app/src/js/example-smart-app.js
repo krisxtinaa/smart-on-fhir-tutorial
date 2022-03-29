@@ -119,7 +119,7 @@
           p.encounterLocation = encounterLocations[0];
 
           // Immunizations
-          p.immuDosage=immunizations[0].doseQuantity.value + immunizations[0].doseQuantity.unit; 
+          //p.immuDosage=immunizations[0].doseQuantity.value + immunizations[0].doseQuantity.unit; 
           p.immuLocation =immunizations[0].location.display;
           p.immuManufacturer=immunizations[0].manufacturer.display;
           p.immuPerformer= immunizations[0].performer.display;

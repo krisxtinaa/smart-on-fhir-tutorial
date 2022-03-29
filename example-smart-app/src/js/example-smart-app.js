@@ -62,6 +62,7 @@
           console.log(byCodes('39156-5'));
 
           var gender = patient.gender;
+          var patientAddress = patient.address;
 
           var fname = '';
           var lname = '';
@@ -79,8 +80,6 @@
           var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
           var hdl = byCodes('2085-9');
           var ldl = byCodes('2089-1');
-
-          var patientAddress = patient.address;
 
           var encounterReasons = "";
           $.each(encounters, function( index, value ) {
@@ -120,11 +119,11 @@
           p.encounterLocation = encounterLocations[0];
 
           // Immunizations
-          p.immuDosage=Immunizations[0].doseQuantity.value +Immunizations[0].doseQuantity.unit; 
-          p.immuLocation =Immunizations[0].location.display;
-          p.immuManufacturer=Immunizations[0].manufacturer.display;
-          p.immuPerformer= Immunizations[0].performer.display;
-          p.immuSite=Immunizations[0].site.text; 
+          p.immuDosage=immunizations[0].doseQuantity.value + immunizations[0].doseQuantity.unit; 
+          p.immuLocation =immunizations[0].location.display;
+          p.immuManufacturer=immunizations[0].manufacturer.display;
+          p.immuPerformer= immunizations[0].performer.display;
+          p.immuSite=immunizations[0].site.text; 
 
           // Check
           console.log('p:');

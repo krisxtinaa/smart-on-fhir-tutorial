@@ -12,18 +12,42 @@
         var patient = smart.patient;
         var pt = patient.read();
 
-         var obv = smart.patient.api.fetchAll({
-           type: 'Observation',
-           query: {
-             code: {
-               $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
-                     'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
-                     'http://loinc.org|2089-1', 'http://loinc.org|55284-4',
-                     'http://loinc.org|39156-5']
-             }
-           }
-         });
+        var obv = [];
+        var encounters = [];     
+        var encounterLocations = [];
+        var immunizations = [];
 
+        // Observations
+        smart.patient.api.fetchAll({type: 'Observation', query: {
+            code: {
+              $or: ['http://loinc.org|8480-6', 'http://loinc.org|39156-5']
+            }
+          }});
+
+        // Encounters
+        smart.patient.api.fetchAll({type:"Encounter"}).then(function(results, refs) {
+          results.forEach(function(encounter){
+            if(encounter.reason!=null)
+            {
+              if(encounter.location!=null)
+              {
+                encounterLocations.push(encounter.location[0].location.display);
+              }
+             console.log('encounter locations: ',encounter.location);
+              encounters.push(encounter.reason);
+            }
+          });
+        });
+
+        // Immunizations
+        smart.patient.api.fetchAll({type:"Immunization"}).then(function(results, refs) {
+          results.forEach(function(im){
+           immunizations.push(im);
+            return false;
+          });
+        });
+
+        // Check
         console.log('patient:');
         console.log(patient)
 
@@ -31,9 +55,10 @@
 
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
+          
+          // Check
           console.log("byCodes:");
           console.log(byCodes('8480-6'));
-          console.log(byCodes('8462-4'));
           console.log(byCodes('39156-5'));
 
           var gender = patient.gender;
@@ -49,25 +74,34 @@
           // Observations
           var bmi = byCodes('39156-5');
 
-          // Cerner SoF Tutorial Observations
-           var height = byCodes('8302-2');
-           var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
-           var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
-           var hdl = byCodes('2085-9');
-           var ldl = byCodes('2089-1');
+          var height = byCodes('8302-2');
+          var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
+          var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
+          var hdl = byCodes('2085-9');
+          var ldl = byCodes('2089-1');
 
+          var patientAddress = patient.address;
+
+          var encounterReasons = "";
+          $.each(encounters, function( index, value ) {
+            encounterReasons += value[0].text+"," ;
+          });
+
+          if(patientAddress != null) {
+            patientAddress = patientAddress[0].text; 
+          } else {
+            patientAddress = 'N/A'; 
+          }
 
           var p = defaultPatient();
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
+          p.patientAddr = patientAddress;
 
           // Observations
           p.bmi = getQuantityValueAndUnit(bmi[0]);
-
-
-          // Cerner SoF Tutorial Observations
           p.height = getQuantityValueAndUnit(height[0]);
 
           if (typeof systolicbp != 'undefined')  {
@@ -80,8 +114,22 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
+
+          // Encounters
+          p.encounterReasons = encounterReasons;
+          p.encounterLocation = encounterLocations[0];
+
+          // Immunizations
+          p.immuDosage=Immunizations[0].doseQuantity.value +Immunizations[0].doseQuantity.unit; 
+          p.immuLocation =Immunizations[0].location.display;
+          p.immuManufacturer=Immunizations[0].manufacturer.display;
+          p.immuPerformer= Immunizations[0].performer.display;
+          p.immuSite=Immunizations[0].site.text; 
+
+          // Check
           console.log('p:');
           console.log(p);
+
           ret.resolve(p);
         });
       } else {
@@ -101,14 +149,21 @@
       gender: {value: ''},
       birthdate: {value: ''},
       
-      bmi: {value: ''},
-
-      // Cerner SoF Tutorial Observations
       height: {value: ''},
+      bmi: {value: ''},
       systolicbp: {value: ''},
       diastolicbp: {value: ''},
       ldl: {value: ''},
       hdl: {value: ''},
+
+      patientAddr: {value: ''},
+      encounterReasons:{value: ''},
+      encounterLocation:{value: ''},
+      immuDosage :{value: ''},
+      immuLocation :{value: ''},
+      immuManufacturer :{value: ''},
+      immuPerformer :{value: ''},
+      immuSite :{value: ''},
     };
   }
 
@@ -151,14 +206,22 @@
     $('#birthdate').html(p.birthdate);
    
     $('#bmi').html(p.bmi);
-    
-    // Cerner SoF Tutorial Observations
-
     $('#height').html(p.height);
     $('#systolicbp').html(p.systolicbp);
     $('#diastolicbp').html(p.diastolicbp);
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
+
+    $('#patientAddr').html(p.patientAddr);
+    $('#encounterReason').html(p.encounterReasons);
+    $('#efname').html(p.fname);
+    $('#elname').html(p.lname);
+    $('#encounterLocation').html(p.encounterLocation);
+    $('#iQuantity').html(p.immuDosage);
+    $('#iLocation').html(p.immuLocation);
+    $('#iManufacturer').html(p.immuManufacturer);
+    $('#iPerformer').html(p.immuPerformer);
+    $('#iSite').html(p.immuSite);
   };
 
 })(window);

@@ -18,6 +18,7 @@
     <div id='holder' >
       <h2>Kristina's FHIR App</h2>
 
+      <!-- Patient -->
       <h2>Patient Resource</h2>
       <table>
         <tr>
@@ -36,7 +37,13 @@
           <th>Date of Birth:</th>
           <td id='birthdate'></td>
         </tr>
+        <tr>
+          <th>Address:</th>
+          <td id='patientAddr'></td>
+        </tr>
       </table>
+
+      <!-- Obbservation -->
       <h2>Observation Resource</h2>
       <table>
         <tr>
@@ -50,7 +57,6 @@
         <tr>
           <th>Systolic Blood Pressure:</th>
           <td id='systolicbp'></td>
-
         </tr>
         <tr>
           <th>Diastolic Blood Pressure:</th>
@@ -63,6 +69,52 @@
         <tr>
           <th>HDL:</th>
           <td id='hdl'></td>
+        </tr>
+      </table>
+
+      <!-- Encounter -->
+      <h2>Encounter Resource</h2>
+      <table>
+        <tr>
+          <th>Encounter Patient FirstName:</th>
+          <td id='efname'></td>
+        </tr>
+        <tr>
+          <th>Encounter Patient LastName:</th>
+          <td id='elname'></td>
+        </tr>
+        <tr>
+          <th>Encounter Reason:</th>
+          <td id='encounterReason'></td>
+        </tr>
+        <tr>
+          <th>Encounter Location:</th>
+          <td id='encounterLocation'></td>
+        </tr>
+      </table>
+
+      <!-- Immunization -->
+      <h2>Immunization Resource</h2>
+      <table>
+        <tr>
+          <th>Dose Quantity:</th>
+          <td id='iQuantity'></td>
+        </tr>
+         <tr>
+          <th>Location:</th>
+          <td id='iLocation'></td>
+        </tr>
+        <tr>
+          <th>Manufacturer:</th>
+          <td id='iManufacturer'></td>
+        </tr>
+          <tr>
+          <th>Performer:</th>
+          <td id='iPerformer'></td>
+        </tr>
+         <tr>
+          <th>Site:</th>
+          <td id='iSite'></td>
         </tr>
       </table>
     </div>

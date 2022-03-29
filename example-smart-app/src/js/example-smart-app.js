@@ -15,7 +15,7 @@
         var obv = [];
         var encounters = [];     
         var encounterLocations = [];
-        var immunizations = [];
+        var Immunizations = [];
 
         // Observations
         smart.patient.api.fetchAll({type: 'Observation', query: {
@@ -42,7 +42,7 @@
         // Immunizations
         smart.patient.api.fetchAll({type:"Immunization"}).then(function(results, refs) {
           results.forEach(function(im){
-           immunizations.push(im);
+           Immunizations.push(im);
             return false;
           });
         });
@@ -119,11 +119,11 @@
           p.encounterLocation = encounterLocations[0];
 
           // Immunizations
-          //p.immuDosage=immunizations[0].doseQuantity.value + immunizations[0].doseQuantity.unit; 
-          p.immuLocation =immunizations[0].location.display;
-          p.immuManufacturer=immunizations[0].manufacturer.display;
-          p.immuPerformer= immunizations[0].performer.display;
-          p.immuSite=immunizations[0].site.text; 
+          p.immuDosage=Immunizations[0].doseQuantity.value + Immunizations[0].doseQuantity.unit; 
+          p.immuLocation =Immunizations[0].location.display;
+          p.immuManufacturer=Immunizations[0].manufacturer.display;
+          p.immuPerformer= Immunizations[0].performer.display;
+          p.immuSite=Immunizations[0].site.text; 
 
           // Check
           console.log('p:');

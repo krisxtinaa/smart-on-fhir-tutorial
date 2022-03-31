@@ -110,7 +110,7 @@
           // Encounters
           var encounterReasons = "";
           $.each(encounters, function(index, value ) {
-            encounterReasons += value[0].status + "," ;
+            encounterReasons += value[0].text + "," ;
           });
 
           p.encounterReasons = encounterReasons;
@@ -119,7 +119,7 @@
           // Immunizations
           var immunizationStatus = "";
           $.each(immunizations, function(index, value ) {
-            immunizationStatus += value[0].text+"," ;
+            immunizationStatus += value[0].status+"," ;
           });
 
           p.immunizationStatus = immunizationStatus;

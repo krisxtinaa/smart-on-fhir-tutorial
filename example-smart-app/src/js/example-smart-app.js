@@ -99,7 +99,7 @@
           // Encounters
           var encounterReasons = "";
           $.each(encounters, function(index, value ) {
-            encounterReasons += value[0].text + "," ;
+            encounterReasons += value[0].text + "  " ;
           });
 
           p.encounterReasons = encounterReasons;

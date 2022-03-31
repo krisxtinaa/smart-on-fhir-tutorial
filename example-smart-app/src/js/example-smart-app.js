@@ -112,8 +112,8 @@
           p.encounterReasons = encounterReasons;
 
           // Immunizations
-          p.immuName=Immunizations[0].vaccineCode.coding.display;
-          p.immuCode=Immunizations[0].vaccineCode.coding.code;
+          //p.immuName=Immunizations[0].vaccineCode.coding.display;
+          //p.immuCode=Immunizations[0].vaccineCode.coding.code;
           //p.immuDosage=Immunizations[0].doseQuantity.value;
 
           //p.immuLocation =Immunizations[0].location.display;
@@ -154,8 +154,8 @@
       patientAddr: {value: ''},
       encounterReasons:{value: ''},
 
-      immuName :{value: ''},
-      immuCode :{value: ''},
+      //immuName :{value: ''},
+      //immuCode :{value: ''},
       //immuDosage :{value: ''},
       //immuLocation :{value: ''},
       //immuManufacturer :{value: ''},
@@ -214,8 +214,8 @@
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
 
-    $('#iName').html(p.immuName);
-    $('#iCode').html(p.immuCode);
+    //$('#iName').html(p.immuName);
+    //$('#iCode').html(p.immuCode);
     //$('#iQuantity').html(p.immuDosage);
 
     //$('#iLocation').html(p.immuLocation);

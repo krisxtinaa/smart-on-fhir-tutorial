@@ -14,7 +14,7 @@
 
         var obv = [];
         var encounters = [];     
-        var Immunizations = [];
+        var immunizations = [];
 
         // Observations
         smart.patient.api.fetchAll({type: 'Observation', query: {
@@ -35,9 +35,11 @@
 
         // Immunizations
         smart.patient.api.fetchAll({type:"Immunization"}).then(function(results, refs) {
-          results.forEach(function(im){
-           Immunizations.push(im);
-            return false;
+          results.forEach(function(immunization){
+            if(immunization.vaccineCode!=null)
+            {
+              immunizations.push(immunization.vaccineCode);
+            }
           });
         });
 
@@ -75,11 +77,6 @@
           var hdl = byCodes('2085-9');
           var ldl = byCodes('2089-1');
 
-          var encounterReasons = "";
-          $.each(encounters, function( index, value ) {
-            encounterReasons += value[0].text+"," ;
-          });
-
           if(patientAddress != null) {
             patientAddress = patientAddress[0].text; 
           } else {
@@ -109,8 +106,21 @@
           p.ldl = getQuantityValueAndUnit(ldl[0]);
 
           // Encounters
-          p.encounterReasons = encounterReasons;
+          var encounterReasons = "";
+          $.each(encounters, function(index, value ) {
+            encounterReasons += value[0].text+"," ;
+          });
 
+          p.encounterReasons = encounterReasons;
+          
+
+          // Immunizations
+          var immunizationNames = "";
+          $.each(immunizations, function(index, value ) {
+            immunizationNames += value[0].coding.display+"," ;
+          });
+
+          p.immunizationNames = immunizationNames;
           // Immunizations
           //p.immuName=Immunizations[0].vaccineCode.coding.display;
           //p.immuCode=Immunizations[0].vaccineCode.coding.code;
@@ -153,6 +163,8 @@
 
       patientAddr: {value: ''},
       encounterReasons:{value: ''},
+
+      immunizationNames:{value: ''},
 
       //immuName :{value: ''},
       //immuCode :{value: ''},
@@ -213,6 +225,8 @@
     $('#encounterReason').html(p.encounterReasons);
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
+
+    $('#immunizationName').html(p.immunizationNames);
 
     //$('#iName').html(p.immuName);
     //$('#iCode').html(p.immuCode);

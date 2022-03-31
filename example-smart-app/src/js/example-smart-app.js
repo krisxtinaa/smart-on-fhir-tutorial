@@ -38,10 +38,7 @@
         // Immunizations
         smart.patient.api.fetchAll({type:"Immunizations"}).then(function(results, refs) {
           results.forEach(function(immunization){
-            if(immunization.vaccineCode!=null)
-            {
-              immunizations.push(immunization.vaccineCode);
-            }
+            immunizations.push(immunization);
           });
         });
 

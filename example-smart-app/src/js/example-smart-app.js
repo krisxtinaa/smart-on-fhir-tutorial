@@ -113,7 +113,7 @@
           
 
           // Immunizations
-          p.immunizationStatus = immunizations[0].status;
+          p.immunizationStatus = immunizations[0].status.text;
 
           
           // Immunizations

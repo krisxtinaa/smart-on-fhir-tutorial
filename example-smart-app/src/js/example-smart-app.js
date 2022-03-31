@@ -36,12 +36,10 @@
         // Immunizations
         smart.patient.api.fetchAll({type:"Immunization"}).then(function(results, refs) {
           results.forEach(function(immunization){
-            if(immunization.vaccineCode!=null)
-            {
-              immunizations.push(immunization.vaccineCode);
-            }
-          });
-        });
+            immunizations.push(immunization);
+             return false;
+           });
+         });
 
         // Check
         console.log('patient:');
@@ -115,12 +113,9 @@
           
 
           // Immunizations
-          var immunizationNames = "";
-          $.each(immunizations, function(index, value ) {
-            immunizationNames += value[0].coding.display+"," ;
-          });
+          p.immunizationStatus = immunizations[0].status;
 
-          p.immunizationNames = immunizationNames;
+          
           // Immunizations
           //p.immuName=Immunizations[0].vaccineCode.coding.display;
           //p.immuCode=Immunizations[0].vaccineCode.coding.code;
@@ -164,9 +159,7 @@
       patientAddr: {value: ''},
       encounterReasons:{value: ''},
 
-      immunizationNames:{value: ''},
-
-      //immuName :{value: ''},
+      immunizationStatus :{value: ''},
       //immuCode :{value: ''},
       //immuDosage :{value: ''},
       //immuLocation :{value: ''},
@@ -226,9 +219,10 @@
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
 
-    $('#immunizationName').html(p.immunizationNames);
+    //$('#immunizationName').html(p.immunizationNames);
 
-    //$('#iName').html(p.immuName);
+    $('#immunizationStatus').html(p.immunizationStatus);
+
     //$('#iCode').html(p.immuCode);
     //$('#iQuantity').html(p.immuDosage);
 

@@ -14,7 +14,7 @@
 
         var obv = [];
         var encounters = [];     
-        var immunizations = [];
+        //var immunizations = [];
 
         // Observations
         smart.patient.api.fetchAll({type: 'Observation', query: {
@@ -36,11 +36,11 @@
         });
 
         // Immunizations
-        smart.patient.api.fetchAll({type:"Immunizations"}).then(function(results, refs) {
-          results.forEach(function(immunization){
-            immunizations.push(immunization);
-          });
-        });
+        // smart.patient.api.fetchAll({type:"Immunizations"}).then(function(results, refs) {
+        //   results.forEach(function(immunization){
+        //     immunizations.push(immunization);
+        //   });
+        // });
 
         // Check
         console.log('patient:');
@@ -57,7 +57,6 @@
           console.log(byCodes('39156-5'));
 
           var gender = patient.gender;
-          var patientAddress = patient.address;
 
           var fname = '';
           var lname = '';
@@ -76,18 +75,11 @@
           var hdl = byCodes('2085-9');
           var ldl = byCodes('2089-1');
 
-          if(patientAddress != null) {
-            patientAddress = patientAddress[0].text; 
-          } else {
-            patientAddress = 'N/A'; 
-          }
-
           var p = defaultPatient();
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
-          p.patientAddr = patientAddress;
 
           // Observations
           p.bmi = getQuantityValueAndUnit(bmi[0]);
@@ -114,12 +106,12 @@
           
 
           // Immunizations
-          var immunizationStatus = "";
-          $.each(immunizations, function(index, value ) {
-            immunizationStatus += value[0].status+"," ;
-          });
+          // var immunizationStatus = "";
+          // $.each(immunizations, function(index, value ) {
+          //   immunizationStatus += value[0].status+"," ;
+          // });
 
-          p.immunizationStatus = immunizationStatus;
+          // p.immunizationStatus = immunizationStatus;
 
           
           // Immunizations
@@ -157,14 +149,10 @@
       ldl: {value: ''},
       hdl: {value: ''},
 
-      patientAddr: {value: ''},
       encounterReasons:{value: ''},
 
-      immunizationStatus :{value: ''},
+      //immunizationStatus :{value: ''},
       //immuCode :{value: ''},
-      //immuDosage :{value: ''},
-      //immuLocation :{value: ''},
-      //immuManufacturer :{value: ''},
       //immuPerformer :{value: ''},
       //immuSite :{value: ''},
     };
@@ -215,22 +203,19 @@
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
 
-    $('#patientAddr').html(p.patientAddr);
     $('#encounterReason').html(p.encounterReasons);
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
 
     //$('#immunizationName').html(p.immunizationNames);
 
-    $('#immunizationStatus').html(p.immunizationStatus);
+    //$('#immunizationStatus').html(p.immunizationStatus);
 
     //$('#iCode').html(p.immuCode);
     //$('#iQuantity').html(p.immuDosage);
 
-    //$('#iLocation').html(p.immuLocation);
     //$('#iManufacturer').html(p.immuManufacturer);
     //$('#iPerformer').html(p.immuPerformer);
-    //$('#iSite').html(p.immuSite);
   };
 
 })(window);

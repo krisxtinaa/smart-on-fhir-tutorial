@@ -14,7 +14,6 @@
 
         var obv = [];
         var encounters = [];     
-        var encounterLocations = [];
         var Immunizations = [];
 
         // Observations
@@ -29,11 +28,6 @@
           results.forEach(function(encounter){
             if(encounter.reason!=null)
             {
-              if(encounter.location!=null)
-              {
-                encounterLocations.push(encounter.location[0].location.display);
-              }
-             console.log('encounter locations: ',encounter.location);
               encounters.push(encounter.reason);
             }
           });
@@ -116,7 +110,6 @@
 
           // Encounters
           p.encounterReasons = encounterReasons;
-          p.encounterLocation = encounterLocations[0];
 
           // Immunizations
           p.immuName=Immunizations[0].vaccineCode.coding.display;
@@ -160,7 +153,6 @@
 
       patientAddr: {value: ''},
       encounterReasons:{value: ''},
-      encounterLocation:{value: ''},
 
       immuName :{value: ''},
       immuCode :{value: ''},
@@ -221,7 +213,6 @@
     $('#encounterReason').html(p.encounterReasons);
     $('#efname').html(p.fname);
     $('#elname').html(p.lname);
-    $('#encounterLocation').html(p.encounterLocation);
 
     $('#iName').html(p.immuName);
     $('#iCode').html(p.immuCode);

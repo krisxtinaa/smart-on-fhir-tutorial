@@ -19,7 +19,9 @@
         // Observations
         smart.patient.api.fetchAll({type: 'Observation', query: {
             code: {
-              $or: ['http://loinc.org|8480-6', 'http://loinc.org|39156-5']
+              $or: ['http://loinc.org|8480-6', 'http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                    'http://loinc.org|2085-9', 'http://loinc.org|2089-1', 'http://loinc.org|55284-4',
+                    'http://loinc.org|39156-5']
             }
           }});
 
@@ -34,12 +36,14 @@
         });
 
         // Immunizations
-        smart.patient.api.fetchAll({type:"Immunization"}).then(function(results, refs) {
+        smart.patient.api.fetchAll({type:"Immunizations"}).then(function(results, refs) {
           results.forEach(function(immunization){
-            immunizations.push(immunization);
-             return false;
-           });
-         });
+            if(immunization.vaccineCode!=null)
+            {
+              immunizations.push(immunization.vaccineCode);
+            }
+          });
+        });
 
         // Check
         console.log('patient:');
@@ -106,25 +110,25 @@
           // Encounters
           var encounterReasons = "";
           $.each(encounters, function(index, value ) {
-            encounterReasons += value[0].text+"," ;
+            encounterReasons += value[0].status + "," ;
           });
 
           p.encounterReasons = encounterReasons;
           
 
           // Immunizations
-          p.immunizationStatus = immunizations[0].status.text;
+          var immunizationStatus = "";
+          $.each(immunizations, function(index, value ) {
+            immunizationStatus += value[0].text+"," ;
+          });
+
+          p.immunizationStatus = immunizationStatus;
 
           
           // Immunizations
           //p.immuName=Immunizations[0].vaccineCode.coding.display;
           //p.immuCode=Immunizations[0].vaccineCode.coding.code;
           //p.immuDosage=Immunizations[0].doseQuantity.value;
-
-          //p.immuLocation =Immunizations[0].location.display;
-          //p.immuManufacturer=Immunizations[0].manufacturer.display;
-          //p.immuPerformer= Immunizations[0].performer.display;
-          //p.immuSite=Immunizations[0].site.text; 
 
           // Check
           console.log('p:');
